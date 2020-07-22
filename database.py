@@ -5,6 +5,8 @@ from sqlite3 import Error
 my_db = sql.connect("myDB.db")
 c = my_db.cursor()
 
+ok = True
+
 # Angajat(id#, (!)nume, prenume, (!=)email, tel)
 # (!) = not null
 # (!=) = unique
@@ -33,7 +35,8 @@ def commitFunc():
 
 def rollback():
     my_db.rollback()
-    show()
+    if ok:
+        show()
 
 
 root = tk.Tk()
@@ -93,8 +96,9 @@ def rama(val):
     d.configure(state=tk.DISABLED)
 
 def show():
-    global showZone
+    global showZone, ok
     global canvasShow, scrolable
+    ok = True
     if canvasShow != None:
         canvasShow.destroy()
     if addZone != None:
@@ -125,7 +129,8 @@ def show():
         g = element(i)
 
 def add():
-    global addZone
+    global addZone, ok
+    ok = False
     addZone = tk.LabelFrame(root, text="ADD", padx=5, pady=5)
     addButton.configure(state = tk.DISABLED)
     showButton.configure(state = "normal")
